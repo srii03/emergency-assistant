@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emergency-ai-assistant
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: emergency-ai-assistant
+  template:
+    metadata:
+      labels:
+        app: emergency-ai-assistant
+    spec:
+      containers:
+      - name: emergency-ai-assistant
+        image: srii0305/emergency-ai-assistant:latest
+
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PORT
+          value: "8080"
+        - name: WEATHERAPI_KEY
+          value: "1e83b014021b45348e4111912252604"
+        - name: NEWSAPI_KEY
+          value: "38a1038416b34622be99d8fe480f5a57"
+        - name: MONGO_URI
+          value: "mongodb://mongo:27017/emergency-ai" # Update this for production
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "0.2"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: emergency-ai-assistant-service
+spec:
+  selector:
+    app: emergency-ai-assistant
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
