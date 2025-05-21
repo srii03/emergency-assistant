@@ -74,7 +74,7 @@ Create a .env file in the root directory with the following content:
 ini
 Copy
 Edit
-PORT=3000
+PORT=8080
 MONGODB_URI=your_mongodb_connection_string
 OPENWEATHER_API_KEY=your_openweather_api_key
 NEWSAPI_KEY=your_newsapi_key
@@ -84,7 +84,7 @@ bash
 Copy
 Edit
 npm start
-Open your browser at http://localhost:3000
+Open your browser at http://localhost:8080
 
 Deploying on Kubernetes (GKE)
 Build the Docker image:
@@ -150,7 +150,3 @@ GitHub: srii03
 For questions or support, please open an issue on GitHub.
 
 Stay safe and prepared with Emergency AI Assistant!
-
-pgsql
-Copy
-Edit
