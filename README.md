@@ -65,45 +65,32 @@ Emergency AI Assistant is a cloud-native, full-stack web application designed to
    cd emergency-assistant
 Install dependencies:
 
-bash
-Copy
-Edit
+
 npm install
 Create a .env file in the root directory with the following content:
 
 ini
-Copy
-Edit
+
 PORT=8080
 MONGODB_URI=your_mongodb_connection_string
 OPENWEATHER_API_KEY=your_openweather_api_key
 NEWSAPI_KEY=your_newsapi_key
 Start the application:
 
-bash
-Copy
-Edit
 npm start
 Open your browser at http://localhost:8080
 
 Deploying on Kubernetes (GKE)
 Build the Docker image:
 
-bash
-Copy
-Edit
 docker build -t gcr.io/[PROJECT-ID]/emergency-ai-assistant:latest .
 Push the image to Google Container Registry:
 
-bash
-Copy
-Edit
+
 docker push gcr.io/[PROJECT-ID]/emergency-ai-assistant:latest
 Deploy to Kubernetes:
 
-bash
-Copy
-Edit
+
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
 Access the app using the external IP of the LoadBalancer service.
