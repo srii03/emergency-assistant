@@ -39,7 +39,7 @@ const logger = winston.createLogger({
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
   logger.info(`Received request: ${req.method} ${req.url}`);
   next();
@@ -278,6 +278,33 @@ function getRecommendations(condition) {
     { message: 'Keep an emergency kit ready.' },
   ];
 }
+
+app.post('/share-location', async (req, res) => {
+  try {
+    const { latitude, longitude, city, country } = req.body;
+
+    if (!latitude || !longitude) {
+      return res.status(400).json({ error: 'Latitude and longitude are required.' });
+    }
+
+    const sharedLocation = {
+      latitude,
+      longitude,
+      city: city || 'Unknown',
+      country: country || 'Unknown',
+      timestamp: new Date(),
+    };
+
+    await db.collection('shared-locations').insertOne(sharedLocation);
+    logger.info(`Shared location received: ${JSON.stringify(sharedLocation)}`);
+
+    res.status(201).json({ message: 'Location shared successfully.', data: sharedLocation });
+  } catch (error) {
+    logger.error(`Error sharing location: ${error.message}`);
+    res.status(500).json({ error: `Error sharing location: ${error.message}` });
+  }
+});
+
 
 // Start Server
 app.listen(port, () => {
